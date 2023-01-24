@@ -1,0 +1,62 @@
+<div *ngIf="viewMode else editable">
+    <div *ngIf="currentTutorial.id">
+        <h4>Tutorial</h4>
+        <div>
+            <label><strong>Title:</strong></label> {{currentTutorial.title}}
+        </div>
+
+        <div>
+            <label><strong>Description:</strong></label> {{currentTutorial.description }}
+        </div>
+
+        <div>
+            <label><strong>Status:</strong></label>{{ currentTutorial.published ? "Published" : "Pending"}}
+        </div>
+
+        <button type="button" class="btn btn-warning" routerLink="/tutorials/{{currentTutorial.id}}">Edit</button>
+    </div>
+
+    <div *ngIf="!currentTutorial">
+        <br/>
+        <p>Please click on a Tutorial..</p>
+    </div>
+</div>
+
+
+<ng-template #editable>
+    <div *ngIf="currentTutorial.id"  class="edit-form">
+        <h4>Tutorial</h4>
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" class="form-control" 
+                [(ngModel)]="currentTutorial.title"/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description" class="form-control"
+                [(ngModel)]="currentTutorial.description"/>
+            </div>
+            <div class="form-group">
+                <label><strong>Status:</strong></label>{{currentTutorial.published ? "Published" : "Pending"}}
+            </div>
+        </form>
+
+        <button class="btn btn-primary" *ngIf="currentTutorial.published"
+        (click)="updatePublished(false)">UnPublish</button>
+        <button class="btn btn-primary" *ngIf="!currentTutorial.published"
+        (click)="updatePublished(true)">Publish</button>
+
+        <button class="btn btn-success" type="submit"
+        (click)="updateTutorial()">Update</button>
+
+        <button class="btn btn-danger" (click)="deleteTutorial()">Delete</button>
+
+        <p>{{message}}</p>
+    </div>
+
+    <div *ngIf="!currentTutorial.id">
+        <br/>
+        <p>Cannot access the Tutorial...</p>
+    </div>
+</ng-template>
